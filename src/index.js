@@ -1,5 +1,5 @@
 const express = require('express')
-const opportunityRoutes = require('../routers/opportunityRoutes')
+const opportunityRoutes = require('./routers/opportunityRoutes')
 
 const app = express()
 
