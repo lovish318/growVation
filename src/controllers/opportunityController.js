@@ -2,14 +2,18 @@ const connection= require('../db/db')
 
 
 exports.getOpportunities =async(req,res)=>{
-    try {connection.connect()
-    const result =await connection.query('SELECT companies.name, opportunities.oid,opportunities.title,oppertunities.location FROM opportunities INNER JOIN companies ON companies.cid = opportunities.cid WHERE is_Job=$1;',[req.params.is_Job])
-    //console.log(result)
-    result.on('fields',(fields)=>{
-        //console.log(fields)
+    try {
+    await connection.query('SELECT companies.name, opportunities.oid,opportunities.title,opportunities.location FROM opportunities INNER JOIN companies ON companies.cid = opportunities.cid WHERE is_Job=?;',[req.params.is_Job],(results,error)=>{
+        if(error){
+            console.log(error)
+            res.json(error)
+        }
+        else{
+            console.log(results)
+            res.json(results)
+        }
     })
-    connection.end()
-    res.send('hello')} catch (error) {
+    } catch (error) {
         console.log(error)
         connection.end()
         res.send('hello')
